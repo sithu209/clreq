@@ -2,28 +2,9 @@
 
 void function() {
 
-type Language = 'en' | 'zh-hant' | 'zh-hans' | 'all'
+const LANG_LIST = ['en', 'zh-hant', 'zh-hans']
 
-interface LocaleData {
-  selector: Record<string, string>
-  fig: string
-  collapseSidebar: string
-  expandSidebar: string
-  jumpToToc: string
-  summary?: string
-  dt: Record<string, string>
-  dd: Record<string, string>
-}
-
-interface L10N {
-  en: LocaleData
-  'zh-hant': LocaleData
-  'zh-hans': LocaleData
-}
-
-const LANG_LIST: Language[] = ['en', 'zh-hant', 'zh-hans']
-
-const L10N: L10N = {
+const L10N = {
 	'en': {
     // CSS selectors for elements that need text replacement
     selector: {
@@ -126,9 +107,9 @@ const L10N: L10N = {
 }
 
 const $root = document.documentElement
-let $$hidden: object[] = []
+let $$hidden = []
 
-function arrayify(obj: any): any[] {
+function arrayify(obj) {
 	return Array.from(obj)
 }
 
@@ -137,11 +118,11 @@ function arrayify(obj: any): any[] {
  * @param selector - CSS selector string
  * @returns Array of matching DOM elements
  */
-function $$(selector: string): HTMLElement[] {
+function $$(selector) {
 	return arrayify(document.querySelectorAll(selector))
 }
 
-function toggle$rootClass(lang: string): void {
+function toggle$rootClass(lang) {
   $root.lang = lang === 'all' ? 'en' : lang
 
 	if (lang === 'all') {
@@ -153,7 +134,7 @@ function toggle$rootClass(lang: string): void {
 	}
 }
 
-function showAndHideLang(lang: string): void {
+function showAndHideLang(lang) {
   // Show previously hidden parts:
   $$hidden
   .forEach(function($elmt) { Object.assign($elmt, { hidden: false }) })
@@ -171,7 +152,7 @@ function showAndHideLang(lang: string): void {
   )
 }
 
-function replaceBoilerplateText(lang: string): void {
+function replaceBoilerplateText(lang) {
   const l10n = L10N[lang === 'all' ? 'en' : lang]
 
   // Alter some basic headings, etc:
@@ -214,7 +195,7 @@ function replaceBoilerplateText(lang: string): void {
 
     // Special handling for bug tracker links (dd elements contain HTML)
     if (originalText === 'Bug tracker:') {
-      $dt.nextElementSibling!.innerHTML = l10n.dd['Bug tracker:']
+      $dt.nextElementSibling.innerHTML = l10n.dd['Bug tracker:']
     }
   })
 
@@ -223,12 +204,12 @@ function replaceBoilerplateText(lang: string): void {
   translateFixupStrings(lang)
 }
 
-let sidebarObserver: MutationObserver | null = null
+let sidebarObserver = null
 
-function translateFixupStrings(lang: string): void {
+function translateFixupStrings(lang) {
   const l10n = L10N[lang === 'all' ? 'en' : lang]
 
-  const fixupIds: Record<string, keyof LocaleData> = {
+  const fixupIds = {
     'toc-collapse-text': 'collapseSidebar',
     'toc-expand-text': 'expandSidebar',
     'toc-jump-text': 'jumpToToc',
@@ -252,7 +233,7 @@ function translateFixupStrings(lang: string): void {
     const toggle = document.getElementById('toc-toggle')
     if (toggle) {
       sidebarObserver = new MutationObserver(function() {
-        const currentLang = ($root.lang || 'en') as Language
+        const currentLang = $root.lang || 'en'
         if (currentLang !== 'en') {
           translateFixupStrings(currentLang)
         }
@@ -266,7 +247,7 @@ function translateFixupStrings(lang: string): void {
  * Expose to global for now since respec will re-parse the entire document
  * and event bound will be lost.
  */
-window.switchLang = function(lang: string): void {
+window.switchLang = function(lang) {
   toggle$rootClass(lang)
   showAndHideLang(lang)
   replaceBoilerplateText(lang)
@@ -275,7 +256,7 @@ window.switchLang = function(lang: string): void {
 /**
  * Add self-link anchors for all p and li elements with id attributes
  */
-function addSelfLinks(): void {
+function addSelfLinks() {
   // Find all p and li elements that have an id attribute
   $$('li[id]')
   .forEach(function($elmt) {
@@ -302,7 +283,7 @@ function addSelfLinks(): void {
  * Note that this may still produce temporarily incorrect labelling
  * where text is awaiting translation.
  */
-function addLangAttr(): void {
+function addLangAttr() {
   toggle$rootClass('all')
 
   LANG_LIST
@@ -319,5 +300,3 @@ function addLangAttr(): void {
 addLangAttr()
 addSelfLinks()
 }()
-
-export {};

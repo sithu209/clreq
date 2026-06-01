@@ -170,32 +170,6 @@ Leave a space between a number and a unit of measurement, eg. `14 pt`.
 
 数字和计量单位之间应留一个空格，例如`14 pt`。
 
-### Working on the language switching code | 语言切换功能
-
-The code for the language switching function is implemented in the following TypeScript file:
-
-语言切换功能的代码在如下TypeScript文件内实现：
-
-```
-src/script.ts
-```
-
-The compiled file is in:
-
-编译后的文件在：
-
-```
-built/script.js
-```
-
-Compiling the TypeScript file requires installing [Node.js](https://nodejs.org/en) and [pnpm](https://pnpm.io/), and using the following commands:
-
-编译该文件需要安装[Node.js](https://nodejs.org/en)和[pnpm](https://pnpm.io/)，并运行：
-
-```
-pnpm install
-pnpm build
-```
 
 ### Working with image source files | 处理图片源文件
 
@@ -207,9 +181,9 @@ This is preferable to committing such files directly to the repository because G
 
 之所以不直接把这类文件提交到仓库，是因为Git会将普通文件内容永久写入仓库历史。对于`*.ai`这类大型二进制源文件，每次修订都可能明显增大克隆和抓取的体积，而Git对这类文件也很难提供有意义的差异比较或合并支持。使用Git LFS后，仓库里只保留一个很小的指针文件，真正的二进制内容只在确有需要时才下载。其他文件则仍应直接提交到仓库，因为它们通常更小，也能充分利用Git原有的比较、合并与审阅流程。
 
-If you only work on the HTML, CSS, or TypeScript files, you do not normally need to think about Git LFS. If you need to open, modify, or add image source files like `*.ai`, install Git LFS first:
+If you only work on the HTML, CSS, or JavaScript files, you do not normally need to think about Git LFS. If you need to open, modify, or add image source files like `*.ai`, install Git LFS first:
 
-如果您只编辑HTML、CSS或TypeScript文件，通常无需关心Git LFS。若您需要打开、修改或新增如`*.ai`的图片源文件，请先安装Git LFS：
+如果您只编辑HTML、CSS或JavaScript文件，通常无需关心Git LFS。若您需要打开、修改或新增如`*.ai`的图片源文件，请先安装Git LFS：
 
 ```
 git lfs install

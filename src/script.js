@@ -1,9 +1,44 @@
+// @ts-check
 'use strict';
 
 void function() {
 
+/**
+ * @typedef {'en' | 'zh-hant' | 'zh-hans'} Lang
+ */
+
+/**
+ * @typedef {'all' | Lang} LangOrAll
+ */
+
+/**
+ * @typedef {Record<string, string>} SelectorMap
+ */
+
+/**
+ * @typedef {Object} L10nEntry
+ * @property {SelectorMap} selector - CSS selectors mapped to localized text
+ * @property {string} fig - Localized prefix for figure captions
+ * @property {string} collapseSidebar
+ * @property {string} expandSidebar
+ * @property {string} jumpToToc
+ * @property {string} [summary] - Localized summary text for the document details section
+ * @property {Record<string, string>} dt - Localized definition terms (dt elements)
+ * @property {Record<string, string>} dd - Localized definition descriptions (dd elements, may contain HTML)
+ */
+
+/**
+ * @typedef {Record<Lang, L10nEntry>} L10nMap
+ */
+
+/**
+ * @typedef {Window & typeof globalThis & { switchLang: (lang: LangOrAll) => void }} AppWindow
+ */
+
+/** @type {readonly Lang[]} */
 const LANG_LIST = ['en', 'zh-hant', 'zh-hans']
 
+/** @type {L10nMap} */
 const L10N = {
 	'en': {
     // CSS selectors for elements that need text replacement
@@ -106,22 +141,33 @@ const L10N = {
   },
 }
 
+/** @type {HTMLElement} */
 const $root = document.documentElement
+
+/** @type {HTMLElement[]} */
 let $$hidden = []
 
+/**
+ * @template T
+ * @param {ArrayLike<T>} obj
+ * @returns {T[]}
+ */
 function arrayify(obj) {
 	return Array.from(obj)
 }
 
 /**
  * Convenience function for querySelectorAll that returns a proper Array.
- * @param selector - CSS selector string
- * @returns Array of matching DOM elements
+ * @param {string} selector - CSS selector string
+ * @returns {HTMLElement[]} Array of matching DOM elements
  */
 function $$(selector) {
 	return arrayify(document.querySelectorAll(selector))
 }
 
+/**
+ * @param {LangOrAll} lang
+ */
 function toggle$rootClass(lang) {
   $root.lang = lang === 'all' ? 'en' : lang
 
@@ -134,6 +180,9 @@ function toggle$rootClass(lang) {
 	}
 }
 
+/**
+ * @param {LangOrAll} lang
+ */
 function showAndHideLang(lang) {
   // Show previously hidden parts:
   $$hidden
@@ -152,6 +201,9 @@ function showAndHideLang(lang) {
   )
 }
 
+/**
+ * @param {LangOrAll} lang
+ */
 function replaceBoilerplateText(lang) {
   const l10n = L10N[lang === 'all' ? 'en' : lang]
 
@@ -204,11 +256,16 @@ function replaceBoilerplateText(lang) {
   translateFixupStrings(lang)
 }
 
+/** @type {MutationObserver | null} */
 let sidebarObserver = null
 
+/**
+ * @param {LangOrAll} lang
+ */
 function translateFixupStrings(lang) {
   const l10n = L10N[lang === 'all' ? 'en' : lang]
 
+  /** @type {Record<string, keyof Pick<L10nEntry, 'collapseSidebar' | 'expandSidebar' | 'jumpToToc'>>} */
   const fixupIds = {
     'toc-collapse-text': 'collapseSidebar',
     'toc-expand-text': 'expandSidebar',
@@ -233,7 +290,7 @@ function translateFixupStrings(lang) {
     const toggle = document.getElementById('toc-toggle')
     if (toggle) {
       sidebarObserver = new MutationObserver(function() {
-        const currentLang = $root.lang || 'en'
+        const currentLang = /** @type {LangOrAll} */ ($root.lang || 'en')
         if (currentLang !== 'en') {
           translateFixupStrings(currentLang)
         }
@@ -246,8 +303,9 @@ function translateFixupStrings(lang) {
 /**
  * Expose to global for now since respec will re-parse the entire document
  * and event bound will be lost.
+ * @param {LangOrAll} lang
  */
-window.switchLang = function(lang) {
+/** @type {AppWindow} */ (/** @type {unknown} */ (window)).switchLang = function(lang) {
   toggle$rootClass(lang)
   showAndHideLang(lang)
   replaceBoilerplateText(lang)

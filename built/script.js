@@ -1,30 +1,35 @@
 "use strict";
 (() => {
-  // src/script.ts
-  void (function() {
-    const LANG_LIST = ["en", "zh-hant", "zh-hans"];
-    const L10N = {
-      "en": {
-        // CSS selectors for elements that need text replacement
-        selector: {
-          "head > title": "Requirements for Chinese Text Layout",
-          "#abstract > h2": "Abstract",
-          "#toc > ol > li:nth-child(1) > a": "Abstract",
-          "#sotd > h2": "Status of This Document",
-          "#toc > ol > li:nth-child(2) > a": "Status of This Document",
-          "#table-of-contents": "Table of Contents",
-          ".note-title": "Note"
-        },
-        // Prefix for figure captions (e.g., "Fig. 1", "Fig. 2")
-        fig: "Fig. ",
-        collapseSidebar: "Collapse Sidebar",
-        expandSidebar: "Pop Out Sidebar",
-        jumpToToc: "Jump to Table of Contents",
-        dt: {},
-        dd: {
-          "Bug tracker:": '<a href="https://github.com/w3c/clreq/issues">file a bug</a> (<a href="https://github.com/w3c/clreq/issues">open bugs</a>)'
-        }
-      },
+
+	// ------------------------------------------------------------
+	//  CONSTANTS
+	// ------------------------------------------------------------
+
+	const LANG_LIST = ["en", "zh-hant", "zh-hans"]
+
+	// Localisation dictionary (insert your full dictionary here)
+	const L10N = {
+        "en": {
+            // CSS selectors for elements that need text replacement
+            selector: {
+              "head > title": "Requirements for Chinese Text Layout",
+              "#abstract > h2": "Abstract",
+              "#toc > ol > li:nth-child(1) > a": "Abstract",
+              "#sotd > h2": "Status of This Document",
+              "#toc > ol > li:nth-child(2) > a": "Status of This Document",
+              "#table-of-contents": "Table of Contents",
+              ".note-title": "Note"
+              },
+            // Prefix for figure captions (e.g., "Fig. 1", "Fig. 2")
+            fig: "Fig. ",
+            collapseSidebar: "Collapse Sidebar",
+            expandSidebar: "Pop Out Sidebar",
+            jumpToToc: "Jump to Table of Contents",
+            dt: {},
+            dd: {
+                "Bug tracker:": '<a href="https://github.com/w3c/clreq/issues">file a bug</a> (<a href="https://github.com/w3c/clreq/issues">open bugs</a>)'
+                }
+            },
       "zh-hant": {
         selector: {
           "head > title": "\u4E2D\u6587\u6392\u7248\u9700\u6C42",
@@ -34,7 +39,7 @@
           "#toc > ol > li:nth-child(2) > a": "\u95DC\u65BC\u672C\u6587\u6A94",
           "#table-of-contents": "\u5167\u5BB9\u5927\u7DB1",
           ".note-title": "\u6CE8"
-        },
+          },
         fig: "\u5716",
         collapseSidebar: "\u6536\u8D77\u5074\u908A\u6B04",
         expandSidebar: "\u5F48\u51FA\u5074\u908A\u6B04",
@@ -51,11 +56,11 @@
           "Participate:": "\u5354\u52A9\u53C3\u8207\uFF1A",
           "Feedback:": "\u53CD\u994B\uFF1A",
           "Contributors:": "\u8CA2\u737B\u8005\uFF1A"
-        },
+          },
         dd: {
           "Bug tracker:": '<a href="https://github.com/w3c/clreq/issues">\u53CD\u994B\u932F\u8AA4</a>\uFF08<a href="https://github.com/w3c/clreq/issues">\u4FEE\u6B63\u4E2D\u7684\u932F\u8AA4</a>\uFF09'
-        }
-      },
+          }
+        },
       "zh-hans": {
         selector: {
           "head > title": "\u4E2D\u6587\u6392\u7248\u9700\u6C42",
@@ -65,7 +70,7 @@
           "#toc > ol > li:nth-child(2) > a": "\u5173\u4E8E\u672C\u6587\u6863",
           "#table-of-contents": "\u5185\u5BB9\u5927\u7EB2",
           ".note-title": "\u6CE8"
-        },
+          },
         fig: "\u56FE",
         collapseSidebar: "\u6536\u8D77\u4FA7\u8FB9\u680F",
         expandSidebar: "\u5F39\u51FA\u4FA7\u8FB9\u680F",
@@ -82,139 +87,248 @@
           "Participate:": "\u534F\u52A9\u53C2\u4E0E\uFF1A",
           "Feedback:": "\u53CD\u9988\uFF1A",
           "Contributors:": "\u8D21\u732E\u8005\uFF1A"
-        },
+          },
         dd: {
           "Bug tracker:": '<a href="https://github.com/w3c/clreq/issues">\u53CD\u9988\u9519\u8BEF</a>\uFF08<a href="https://github.com/w3c/clreq/issues">\u4FEE\u6B63\u4E2D\u7684\u9519\u8BEF</a>\uFF09'
-        }
-      }
-    };
-    const $root = document.documentElement;
-    let $$hidden = [];
-    function arrayify(obj) {
-      return Array.from(obj);
-    }
-    function $$(selector) {
-      return arrayify(document.querySelectorAll(selector));
-    }
-    function toggle$rootClass(lang) {
-      $root.lang = lang === "all" ? "en" : lang;
-      if (lang === "all") {
-        $root.classList.add("is-multilingual");
-        $root.classList.remove("isnt-multilingual");
-      } else {
-        $root.classList.remove("is-multilingual");
-        $root.classList.add("isnt-multilingual");
-      }
-    }
-    function showAndHideLang(lang) {
-      $$hidden.forEach(function($elmt) {
-        Object.assign($elmt, { hidden: false });
-      });
-      if (lang === "all") {
-        return;
-      }
-      $$hidden = LANG_LIST.filter(function(it) {
-        return it !== lang;
-      }).reduce(function(result, it) {
-        return result.concat($$(`[its-locale-filter-list="${it}"]`));
-      }, []).map(function($elmt) {
-        return Object.assign($elmt, { hidden: true });
-      });
-    }
-    function replaceBoilerplateText(lang) {
-      const l10n = L10N[lang === "all" ? "en" : lang];
-      Object.keys(l10n.selector).forEach(function(s) {
-        $$(s).forEach(function($elmt) {
-          Object.assign($elmt, { textContent: l10n.selector[s] });
-        });
-      });
-      $$("figcaption, .fig-ref").forEach(function($elmt) {
-        Object.assign($elmt.firstChild, { textContent: l10n.fig });
-      });
-      $$("body > div.head > details > summary").forEach(function($summary) {
-        let originalText = $summary.dataset.originalText || $summary.textContent.trim();
-        let text = l10n.summary || originalText;
-        if (text) {
-          $summary.textContent = text;
-          $summary.dataset.originalText = originalText;
-        }
-      });
-      $$("body > div.head > details > dl > dt").forEach(function($dt) {
-        let originalText = $dt.dataset.originalText || $dt.textContent.trim();
-        let text = l10n.dt[originalText] || originalText;
-        if (text) {
-          $dt.textContent = text;
-          $dt.dataset.originalText = originalText;
-        }
-        if (originalText === "Bug tracker:") {
-          $dt.nextElementSibling.innerHTML = l10n.dd["Bug tracker:"];
-        }
-      });
-      translateFixupStrings(lang);
-    }
-    let sidebarObserver = null;
-    function translateFixupStrings(lang) {
-      const l10n = L10N[lang === "all" ? "en" : lang];
-      const fixupIds = {
-        "toc-collapse-text": "collapseSidebar",
-        "toc-expand-text": "expandSidebar",
-        "toc-jump-text": "jumpToToc"
-      };
-      Object.keys(fixupIds).forEach(function(id) {
-        const el = document.getElementById(id);
-        if (el) {
-          const key = fixupIds[id];
-          if (l10n[key]) {
-            if (el.textContent !== l10n[key]) {
-              el.textContent = l10n[key];
-            }
           }
         }
-      });
-      if (!sidebarObserver) {
-        const toggle = document.getElementById("toc-toggle");
-        if (toggle) {
-          sidebarObserver = new MutationObserver(function() {
-            const currentLang = $root.lang || "en";
-            if (currentLang !== "en") {
-              translateFixupStrings(currentLang);
+    }
+
+
+	// Root <html> element
+	const rootNode = document.documentElement
+
+	// Tracks elements hidden during language switching
+	let hiddenNodeList = []
+
+
+
+	// ------------------------------------------------------------
+	//  UTILITY HELPERS
+	// ------------------------------------------------------------
+
+	// Convert NodeList → Array
+	function arrayify(obj) {
+        return Array.from(obj)
+        }
+
+	// Query selector returning an Array of nodes
+	function queryNodeList(selector) {
+        return arrayify(document.querySelectorAll(selector))
+        }
+
+	// Convert "all" → "en" so the rest of the code can treat it normally
+	function normalizeLang(lang) {
+        return lang === "all" ? "en" : lang
+        }
+
+
+
+	// ------------------------------------------------------------
+	//  LANGUAGE SWITCHING
+	// ------------------------------------------------------------
+
+	// Update <html> attributes and CSS classes based on selected language
+	function toggleRootClass(lang) {
+        const norm = normalizeLang(lang)
+        rootNode.lang = norm
+
+        if (lang === "all") {
+            rootNode.classList.add("is-multilingual")
+            rootNode.classList.remove("isnt-multilingual")
             }
-          });
-          sidebarObserver.observe(toggle, { childList: true, subtree: true });
+        else {
+            rootNode.classList.remove("is-multilingual")
+            rootNode.classList.add("isnt-multilingual")
+            }
+	   }
+
+	// Show only the elements belonging to the selected language
+	function showAndHideLang(lang) {
+        // Unhide everything previously hidden
+        hiddenNodeList.forEach(elmtNode => elmtNode.hidden = false)
+
+        if (lang === "all") return
+
+        // Build a new list of elements to hide
+        hiddenNodeList = LANG_LIST
+            .filter(it => it !== lang)
+            .flatMap(it => queryNodeList(`[its-locale-filter-list="${it}"]`))
+
+        // Hide them
+        hiddenNodeList.forEach(elmtNode => elmtNode.hidden = true)
         }
-      }
-    }
-    window.switchLang = function(lang) {
-      toggle$rootClass(lang);
-      showAndHideLang(lang);
-      replaceBoilerplateText(lang);
-      updateSelectedLanguageButton(lang)
-      };
-    function addSelfLinks() {
-      $$("li[id]").forEach(function($elmt) {
-        const elementId = $elmt.getAttribute("id");
-        if (elementId) {
-          const selfLink = document.createElement("a");
-          selfLink.className = "self-link";
-          selfLink.href = `#${elementId}`;
-          $elmt.insertBefore(selfLink, $elmt.firstChild);
+
+
+
+	// ------------------------------------------------------------
+	//  TEXT REPLACEMENT / LOCALISATION
+	// ------------------------------------------------------------
+
+	// Replace fixed boilerplate text (titles, headings, dt/dd, figure labels)
+	function replaceBoilerplateText(lang) {
+
+		const l10n = L10N[normalizeLang(lang)]
+
+		// Replace text for fixed selectors
+		for (const [selector, text] of Object.entries(l10n.selector)) {
+			queryNodeList(selector).forEach(elmtNode => elmtNode.textContent = text)
+            }
+
+		// Replace figure caption prefixes
+		queryNodeList("figcaption, .fig-ref").forEach(elmtNode => {
+			if (elmtNode.firstChild) elmtNode.firstChild.textContent = l10n.fig
+            })
+
+		// Replace <summary> text in document header
+		queryNodeList("body > div.head > details > summary").forEach(summaryNode => {
+
+			const original = summaryNode.dataset.originalText || summaryNode.textContent.trim()
+			const replacement = l10n.summary || original
+
+			summaryNode.textContent = replacement
+			summaryNode.dataset.originalText = original
+            })
+
+		// Replace <dt> and <dd> entries
+		queryNodeList("body > div.head > details > dl > dt").forEach(dtNode => {
+
+			const original = dtNode.dataset.originalText || dtNode.textContent.trim()
+			const replacement = l10n.dt[original] || original
+
+			dtNode.textContent = replacement
+			dtNode.dataset.originalText = original
+
+			// Special case: Bug tracker <dd> contains HTML
+			if (original === "Bug tracker:") {
+				dtNode.nextElementSibling.innerHTML = l10n.dd["Bug tracker:"]
+                }
+            })
+
+		translateFixupStrings(lang)
         }
-      });
-    }
-    function addLangAttr() {
-      toggle$rootClass("all");
-      LANG_LIST.forEach(function(lang) {
-        $$(`[its-locale-filter-list="${lang}"]`).forEach(function($elmt) {
-          if (!$elmt.lang) {
-            $elmt.lang = lang;
-          }
-        });
-      });
-    }
-    addLangAttr();
-    addSelfLinks();
-  })();
-})();
+
+
+
+	// ------------------------------------------------------------
+	//  SIDEBAR FIXUP TEXT (dynamic)
+	// ------------------------------------------------------------
+
+	let sidebarObserver = null
+
+	// Update sidebar UI text (collapse/expand/jump)
+	function translateFixupStrings(lang) {
+
+		const l10n = L10N[normalizeLang(lang)]
+
+		const fixupIds = {
+			"toc-collapse-text": "collapseSidebar",
+			"toc-expand-text": "expandSidebar",
+			"toc-jump-text": "jumpToToc"
+            }
+
+		for (const [id, key] of Object.entries(fixupIds)) {
+			const elmtNode = document.getElementById(id)
+			if (elmtNode && l10n[key] && elmtNode.textContent !== l10n[key]) {
+				elmtNode.textContent = l10n[key]
+                }
+            }
+
+		// Install MutationObserver once
+		if (!sidebarObserver) {
+
+			const toggleNode = document.getElementById("toc-toggle")
+			if (!toggleNode) return
+
+			sidebarObserver = new MutationObserver(() => {
+				const current = rootNode.lang || "en"
+				if (current !== "en") translateFixupStrings(current)
+                })
+
+			sidebarObserver.observe(toggleNode, { childList:true, subtree:true })
+            }
+        }
+
+
+
+	// ------------------------------------------------------------
+	//  LANGUAGE BUTTON HIGHLIGHTING
+	// ------------------------------------------------------------
+
+	// Highlight the selected language button
+	function updateSelectedLanguageButton(lang) {
+
+		const btnNodeList = document.querySelectorAll("#langSwitch > button")
+		const btnArray = Array.from(btnNodeList)
+
+		btnArray.forEach(btnNode => {
+
+			const onclickValue = btnNode.getAttribute("onclick") || ""
+			const match = onclickValue.match(/switchLang\('([^']+)'\)/)
+			const btnLang = match ? match[1] : null
+
+			if (btnLang === lang) btnNode.classList.add("selectedLanguage")
+			else btnNode.classList.remove("selectedLanguage")
+            })
+        }
+
+
+
+	// ------------------------------------------------------------
+	//  PUBLIC API
+	// ------------------------------------------------------------
+
+	window.switchLang = function(lang) {
+		toggleRootClass(lang)
+		showAndHideLang(lang)
+		replaceBoilerplateText(lang)
+		updateSelectedLanguageButton(lang)
+        }
+
+
+
+	// ------------------------------------------------------------
+	//  INITIALISATION HELPERS
+	// ------------------------------------------------------------
+
+	// Add self-links to <li id="..."> items
+	function addSelfLinks() {
+		queryNodeList("li[id]").forEach(elmtNode => {
+
+			const id = elmtNode.id
+			if (!id) return
+
+			const linkNode = document.createElement("a")
+			linkNode.className = "self-link"
+			linkNode.href = `#${id}`
+
+			elmtNode.insertBefore(linkNode, elmtNode.firstChild)
+            })
+        }
+
+	// Add lang="" attributes to multilingual spans
+	function addLangAttr() {
+
+		// Temporarily treat as multilingual so all content is visible
+		toggleRootClass("all")
+
+		LANG_LIST.forEach(lang => {
+			queryNodeList(`[its-locale-filter-list="${lang}"]`).forEach(elmtNode => {
+				if (!elmtNode.lang) elmtNode.lang = lang
+                })
+            })
+        }
+
+
+
+	// ------------------------------------------------------------
+	//  RUN INITIALISATION
+	// ------------------------------------------------------------
+
+	addLangAttr()
+	addSelfLinks()
+
+    })()
 
 
 

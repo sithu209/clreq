@@ -415,46 +415,63 @@ section li[id] > a.self-link::before {
 
 #langSwitch {
 	position: fixed;
-	/*top: -14px;*/
 	z-index: 10000;
 	top: 160px;
 	right: 10px;
-	width: 8em;
-	text-align: right;
-    display: flex;
-    flex-direction: column;
-    align-content: end;
-    background-color: white;
-    padding:1em;
-    border-radius: .75em;
+    inline-size: max-content;
+    max-inline-size: calc(100vw - 2rem);
+    text-align: start;
+    background-color: #fffffe;
+    border: 1px solid #d8d8d8;
+    border-radius: .5em;
+    box-shadow: 0 .15em .45em rgb(0 0 0 / 12%);
 	}
+
+#langSwitch[open] {
+    padding-block-end: .5em;
+    }
+
+#langSwitch summary {
+    cursor: pointer;
+    padding-block: .4em;
+    padding-inline: .65em;
+    white-space: nowrap;
+    }
+
+#langSwitch summary:focus-visible {
+    outline: 2px solid #005a9c;
+    outline-offset: 2px;
+    }
+
+#selectedLanguageLabel {
+    font-weight: bold;
+    }
+
 /* Tablets (portrait) */
 @media (max-width: 900px) {
     #langSwitch {
-        width: 6em;
-        padding-block-start: .25em;
-        padding-block-end: 1em;
-        padding-inline: .75em;
-        margin: 0;
         top: auto;
-        bottom:0;
+        bottom: .75em;
         }
     }
 
 /* Mobile phones */
 @media (max-width: 600px) {
     #langSwitch {
-        width: 5em;
-        padding-block-end: .5em;
+        right: .5em;
+        bottom: .5em;
         }
     }
 
 #langSwitch button {
-	background: #FFF none repeat scroll 0% 0%;
+	background: #fffffe none repeat scroll 0% 0%;
 	border: 1px solid #CCC;
 	border-radius: 5px;
     display: block;
+    inline-size: calc(100% - 1.3em);
     margin-block: .2em;
+    margin-inline: .65em;
+    text-align: start;
 	}
 #langSwitch button:lang(zh-hans) {
 	background-color: #fbc481;
@@ -472,7 +489,4 @@ section li[id] > a.self-link::before {
     }
 #languageChoiceLabel {
     font-size: 70%;
-    display: block;
-    align-self: center;
     }
-

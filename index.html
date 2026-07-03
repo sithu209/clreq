@@ -76,12 +76,13 @@ var respecConfig = {
   <p its-locale-filter-list="zh-hant" lang="zh-hant">本文檔由W3C國際化興趣組下的<a href="https://github.com/w3c/clreq">中文布局任務團</a>編寫而成，<a href="https://www.w3.org/html/ig/zh/">W3C HTML5中文興趣組</a>為本文檔提供了審閱支持，<a href="https://www.w3.org/International/core/">W3C國際化工作組</a>為文檔的編寫提供了諸多幫助。中文排版布局任務小組將與<a href="https://www.w3.org/International/core/">W3C國際化工作組</a>聯合發布該文檔的草案，並邀請業界進行審閱。</p>
 
 
-  <p id="langSwitch"><span id="languageChoiceLabel">Language</span>
+  <details id="langSwitch">
+    <summary><span id="languageChoiceLabel">Lang</span>: <span id="selectedLanguageLabel">All</span></summary>
     <button onclick="switchLang('zh-hant')" lang="zh-hant">繁體中文</button>
     <button onclick="switchLang('zh-hans')" lang="zh-hans">简体中文</button>
     <button onclick="switchLang('en')" lang="en">English</button>
     <button onclick="switchLang('all')" lang="en" class="selectedLanguage">All</button>
-  </p>
+  </details>
 
   <p its-locale-filter-list="zh-hans" lang="zh-hans">本章节描述了本文档的发布状态。其他更新版本可能会覆盖本文档。W3C的文档列表和最新版本可通过<a href="https://www.w3.org/TR/">W3C技术报告</a>索引访问。</p>
   <p its-locale-filter-list="zh-hans" lang="zh-hans">以编辑草稿方式发布的文档还没有通过<abbr title="World Wide Web Consortium">W3C</abbr>会员流程的认可。这是一份文档草稿并且会不断更新。请暂时不要正式引用本文档。</p>

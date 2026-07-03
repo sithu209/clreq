@@ -348,6 +348,7 @@ function updateSelectedLanguageButton(lang) {
 
     const btnNodeList = document.querySelectorAll("#langSwitch > button")
     const btnArray = Array.from(btnNodeList)
+    const selectedLanguageLabelNode = document.getElementById("selectedLanguageLabel")
 
     btnArray.forEach(btnNode => {
 
@@ -355,8 +356,13 @@ function updateSelectedLanguageButton(lang) {
         const match = onclickValue.match(/switchLang\('([^']+)'\)/)
         const btnLang = match ? match[1] : null
 
-        if (btnLang === lang) btnNode.classList.add("selectedLanguage")
-        else btnNode.classList.remove("selectedLanguage")
+        if (btnLang === lang) {
+            btnNode.classList.add("selectedLanguage")
+            if (selectedLanguageLabelNode) selectedLanguageLabelNode.textContent = btnNode.textContent.trim()
+            }
+        else {
+            btnNode.classList.remove("selectedLanguage")
+            }
         })
     }
 
@@ -378,6 +384,12 @@ function updateSelectedLanguageButton(lang) {
     showAndHideLang(lang)
     replaceBoilerplateText(lang)
     updateSelectedLanguageButton(lang)
+    const langSwitchNode = document.getElementById("langSwitch")
+    if (langSwitchNode instanceof HTMLDetailsElement) {
+        langSwitchNode.open = false
+        const summaryNode = langSwitchNode.querySelector("summary")
+        if (summaryNode instanceof HTMLElement) summaryNode.focus()
+        }
     }
 
 
@@ -452,6 +464,7 @@ function updateSelectedLanguageButton(lang) {
 
     const btnNodeList = document.querySelectorAll('#langSwitch > button')
     const btnNodeListArray = Array.from(btnNodeList)
+    const selectedLanguageLabelNode = document.getElementById('selectedLanguageLabel')
 
     btnNodeListArray.forEach(btnNode => {
         // Extract the argument inside onclick="switchLang('xxx')"
@@ -459,10 +472,13 @@ function updateSelectedLanguageButton(lang) {
         const match = onclickValue.match(/switchLang\('([^']+)'\)/)
         const btnLang = match ? match[1] : null
 
-        if (btnLang === lang) btnNode.classList.add('selectedLanguage')
-        else btnNode.classList.remove('selectedLanguage')
+        if (btnLang === lang) {
+            btnNode.classList.add('selectedLanguage')
+            if (selectedLanguageLabelNode) selectedLanguageLabelNode.textContent = btnNode.textContent.trim()
+            }
+        else {
+            btnNode.classList.remove('selectedLanguage')
+            }
         })
     }
-
-
 

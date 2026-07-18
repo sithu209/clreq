@@ -156,6 +156,17 @@ Here are some tips on how to maintain the parallel language structure in markup.
     [[[#myFigureId]]]
     ```
 
+- When a section's `id` is renamed, preserve the old `id` as an empty `<span>` so existing links don't break. Mark such spans with an `<!-- oldid -->` comment on the preceding line to help maintainers identify them.
+
+    当章节的 `id` 改名时，请保留旧 `id` 为一个隐藏的 `<span>` 元素，使已有的外部链接不至于失效。请在前一行加上 `<!-- oldid -->` 注释，方便维护者识别这些是旧锚点。
+
+    ```html
+    <!-- oldid -->
+    <span id="old_section_id"></span>
+    <section id="new_section_id">
+      …
+    ```
+
 For additional ideas about markup and styling in Internationalization Activity documents, especially wrt inline markup conventions, see <https://www.w3.org/International/i18n-activity/guidelines/editing>.
 
 欲了解更多国际化标准计划文档里的標記和样式条约，尤其是行内標記的使用慣例，请查看<https://www.w3.org/International/i18n-activity/guidelines/editing>。

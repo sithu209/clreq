@@ -99,4 +99,4 @@ node --test tests/language-switching.test.mjs
 BROWSER_BIN="/path/to/browser" node --test tests/language-switching.test.mjs
 ```
 
-测试运行器会启动一个本地HTTP服务器，加载 `index.html`，等待ReSpec 生成文档标题、目录和侧边栏，然后使用文档的语言切换按钮。
+测试运行器会启动一个本地HTTP服务器，加载 `index.html`，等待ReSpec生成文档标题、目录和侧边栏，然后使用文档的语言切换按钮。

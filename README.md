@@ -94,7 +94,7 @@ Run the tests from the repository root:
 node --test tests/language-switching.test.mjs
 ```
 
-The current test runner communicates with the browser through the DevTools Protocol. It looks for compatible browser executables in common locations and on `PATH`. If the browser is installed elsewhere, set `BROWSER_BIN` to its executable path:
+The test runner communicates with the browser through the DevTools Protocol. It looks for compatible browser executables in common locations and on `PATH`. If the browser is installed elsewhere, set `BROWSER_BIN` to its executable path:
 
 ```sh
 BROWSER_BIN="/path/to/browser" node --test tests/language-switching.test.mjs

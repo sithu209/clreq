@@ -82,3 +82,21 @@
 - [GitHub guidelines for working with i18n documents](https://www.w3.org/International/i18n-activity/guidelines/github)
 - [Editorial guidelines for working with i18n documents](https://www.w3.org/International/i18n-activity/guidelines/editing)
 - [工作组编辑体例之简繁体词汇表](https://github.com/w3c/clreq/wiki/%E5%B7%A5%E4%BD%9C%E7%B5%84%E7%B7%A8%E8%BC%AF%E9%AB%94%E4%BE%8B%E4%B9%8B%E7%B0%A1%E7%B9%81%E9%AB%94%E8%A9%9E%E5%BD%99%E8%A1%A8) 
+
+### 自动化测试
+
+文档的语言切换功能包含自动化的DOM断言测试。运行这些测试需要 Node.js、无头浏览器和网络连接，以便文档可以从W3C网站加载ReSpec。
+
+在仓库根目录运行测试：
+
+```sh
+node --test tests/language-switching.test.mjs
+```
+
+测试运行器通过DevTools Protocol与浏览器通信。它会在常见位置和 `PATH` 中查找兼容的浏览器可执行文件。如果浏览器安装在其他位置，请设置 `BROWSER_BIN` 环境变量指向其可执行文件路径：
+
+```sh
+BROWSER_BIN="/path/to/browser" node --test tests/language-switching.test.mjs
+```
+
+测试运行器会启动一个本地HTTP服务器，加载 `index.html`，等待ReSpec 生成文档标题、目录和侧边栏，然后使用文档的语言切换按钮。

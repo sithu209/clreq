@@ -83,3 +83,21 @@ If you end up creating a document, you should be familiar with and use the follo
 - [GitHub guidelines for working with i18n documents](https://www.w3.org/International/i18n-activity/guidelines/github)
 - [Editorial guidelines for working with i18n documents](https://www.w3.org/International/i18n-activity/guidelines/editing)
 - [Editorial guidelines for Hans-Hant Glossary](https://github.com/w3c/clreq/wiki/%E5%B7%A5%E4%BD%9C%E7%B5%84%E7%B7%A8%E8%BC%AF%E9%AB%94%E4%BE%8B%E4%B9%8B%E7%B0%A1%E7%B9%81%E9%AB%94%E8%A9%9E%E5%BD%99%E8%A1%A8)
+
+### Automated testing
+
+The language switcher has automated DOM assertion tests. They require Node.js, a supported headless browser, and network access so the document can load ReSpec from the W3C website.
+
+Run the tests from the repository root:
+
+```sh
+node --test tests/language-switching.test.mjs
+```
+
+The current test runner communicates with the browser through the DevTools Protocol. It looks for compatible browser executables in common locations and on `PATH`. If the browser is installed elsewhere, set `BROWSER_BIN` to its executable path:
+
+```sh
+BROWSER_BIN="/path/to/browser" node --test tests/language-switching.test.mjs
+```
+
+The test runner starts a temporary local HTTP server, loads `index.html`, waits for ReSpec to generate the document header, table of contents, and sidebar, and then uses the document's language buttons.

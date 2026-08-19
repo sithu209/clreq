@@ -17,7 +17,7 @@
 
 ## Purpose and scope
 
-This document provides a reference for implementers of CSS generic font families or similar mechanisms when selecting system fonts for Simplified and Traditional Chinese. For each supported platform and generic family, it identifies a verified system font mapping and documents its availability status.
+This document is intended primarily for implementers of browser engines and typesetting software. It provides a reference for selecting system fonts for Simplified and Traditional Chinese when implementing CSS generic font families or similar mechanisms. For each supported platform and generic family, it identifies a verified system font mapping and documents its availability status.
 
 CSS defines `serif` as corresponding to Song for Chinese, `sans-serif` as corresponding to Hei, and introduces the writing-system-specific families `generic(fangsong)` and `generic(kai)`. The specification delegates the choice of a concrete system font for each generic family to the implementation. This document supplies that choice on a per-platform, per-generic-family basis, backed by official vendor inventories, OS configurations, or distribution-package records.
 

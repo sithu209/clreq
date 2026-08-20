@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Windows、macOS、iOS、Linux、Android 与 OpenHarmony 的中文宋体、黑体、楷体、仿宋系统字体映射速查。">
+  <title>中文系统字体</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f0e7;
+      --sheet: #fffdf8;
+      --ink: #20201d;
+      --muted: #68645b;
+      --rule: #cdc5b6;
+      --rule-strong: #8c8375;
+      --accent: #a33a2b;
+      --accent-soft: #f4e1da;
+      --available: #236448;
+      --available-soft: #deede4;
+      --optional: #7a5319;
+      --optional-soft: #f4e7cb;
+      --absent: #716d66;
+      --absent-soft: #ebe8e1;
+      font-family: 'Punctuation TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
+      text-autospace: normal;
+      font-synthesis: none;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--paper);
+    }
+
+    body {
+      min-width: 20rem;
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+      color: var(--sheet);
+      background: var(--accent);
+    }
+
+    a {
+      color: inherit;
+      text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.22em;
+    }
+
+    a:hover {
+      color: var(--accent);
+    }
+
+    a:focus-visible {
+      outline: 0.1875rem solid var(--accent);
+      outline-offset: 0.25rem;
+    }
+
+    main {
+      width: min(92rem, calc(100% - 3rem));
+      margin: 0 auto;
+      padding: clamp(2.5rem, 6vw, 6rem) 0;
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 2rem;
+      align-items: end;
+      margin-bottom: clamp(2rem, 4vw, 3.75rem);
+      padding-bottom: 1.35rem;
+      border-bottom: 0.125rem solid var(--ink);
+    }
+
+    h1 {
+      max-width: 10em;
+      margin: 0;
+      font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      font-size: clamp(2.45rem, 5.2vw, 5.6rem);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+
+    .matrix-shell {
+      overflow: hidden;
+      border: 0.0625rem solid var(--rule-strong);
+      background: var(--sheet);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    caption {
+      padding: 1.25rem 1.4rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: left;
+      border-bottom: 0.0625rem solid var(--rule);
+    }
+
+    thead {
+      background: var(--ink);
+      color: var(--sheet);
+    }
+
+    th,
+    td {
+      padding: clamp(1rem, 1.7vw, 1.55rem);
+      vertical-align: top;
+      text-align: left;
+      border-right: 0.0625rem solid var(--rule);
+      border-bottom: 0.0625rem solid var(--rule);
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    tbody tr:last-child > * {
+      border-bottom: 0;
+    }
+
+    thead th {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .platform {
+      width: 13%;
+      background: #f3eee5;
+      font-size: 1.05rem;
+      line-height: 1.3;
+    }
+
+    .platform small {
+      display: block;
+      margin-top: 0.38rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    .font-entry + .font-entry {
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 0.0625rem dotted var(--rule);
+    }
+
+    .font-name {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 650;
+      line-height: 1.38;
+    }
+
+    .english-name {
+      display: block;
+      margin-top: 0.15rem;
+      color: var(--muted);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 0.7rem;
+      line-height: 1.45;
+      overflow-wrap: anywhere;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 0.48rem;
+      padding: 0.12rem 0.42rem;
+      border-radius: 0.2rem;
+      font-size: 0.66rem;
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .status.built-in,
+    .status.fallback {
+      color: var(--available);
+      background: var(--available-soft);
+    }
+
+    .status.optional,
+    .status.download,
+    .status.package {
+      color: var(--optional);
+      background: var(--optional-soft);
+    }
+
+    .status.none {
+      color: var(--absent);
+      background: var(--absent-soft);
+    }
+
+    .empty {
+      color: var(--absent);
+    }
+
+    .empty .font-name {
+      font-weight: 500;
+    }
+
+    footer {
+      display: flex;
+      gap: 1rem 2rem;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 1.1rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    footer p {
+      max-width: 72ch;
+      margin: 0;
+    }
+
+    @media (max-width: 52rem) {
+      main {
+        width: min(100% - 1.5rem, 42rem);
+        padding: 2rem 0 3rem;
+      }
+
+      .masthead {
+        grid-template-columns: minmax(0, 1fr) 3.75rem;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      h1 {
+        min-width: 0;
+        font-size: clamp(2.15rem, 10vw, 3.5rem);
+      }
+
+      .seal {
+        width: 3.75rem;
+        height: 3.75rem;
+        font-size: 0.85rem;
+      }
+
+      .matrix-shell {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+      }
+
+      table,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+
+      table {
+        width: 100%;
+        max-width: 100%;
+        table-layout: auto;
+      }
+
+      caption {
+        display: block;
+        margin-bottom: 0.75rem;
+        padding: 0;
+        border: 0;
+      }
+
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        clip-path: inset(50%);
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      tbody {
+        display: grid;
+        width: 100%;
+        gap: 0.9rem;
+      }
+
+      tbody tr {
+        display: grid;
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        border: 0.0625rem solid var(--rule-strong);
+        background: var(--sheet);
+      }
+
+      tbody tr > * {
+        border-right: 0.0625rem solid var(--rule);
+        border-bottom: 0.0625rem solid var(--rule);
+      }
+
+      tbody tr > :nth-child(odd):not(.platform) {
+        border-right: 0;
+      }
+
+      tbody tr > :nth-last-child(-n + 2) {
+        border-bottom: 0;
+      }
+
+      .platform {
+        grid-column: 1 / -1;
+        width: auto;
+        padding: 0.8rem 1rem;
+        border-right: 0;
+        background: var(--ink);
+        color: var(--sheet);
+      }
+
+      .platform small {
+        display: inline;
+        margin-left: 0.5rem;
+        color: #d6d0c6;
+      }
+
+      td {
+        min-width: 0;
+        min-height: 9.5rem;
+        padding: 2.65rem 1rem 1rem;
+        position: relative;
+      }
+
+      td::before {
+        position: absolute;
+        top: 0.75rem;
+        left: 1rem;
+        color: var(--accent);
+        font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        content: attr(data-label);
+      }
+
+      .font-name,
+      .english-name {
+        overflow-wrap: anywhere;
+      }
+
+      footer {
+        display: block;
+      }
+
+      footer p + p {
+        margin-top: 0.55rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 10mm;
+      }
+
+      :root {
+        --paper: #fff;
+        --sheet: #fff;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .masthead {
+        margin-bottom: 8mm;
+      }
+
+      h1 {
+        font-size: 34pt;
+      }
+
+      th,
+      td {
+        padding: 7pt;
+      }
+
+      footer {
+        font-size: 7.5pt;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="masthead">
+      <h1>中文系统字体<br></h1>
+    </header>
+
+    <div class="matrix-shell">
+      <table>
+        <caption>同一字体族按简体（简）与繁体（繁）分列；“下载／可选／软件包”均不代表默认已安装。</caption>
+        <thead>
+          <tr>
+            <th scope="col">平台</th>
+            <th scope="col">宋体</th>
+            <th scope="col">黑体</th>
+            <th scope="col">楷体</th>
+            <th scope="col">仿宋</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th class="platform" scope="row">Windows <small>Windows 11</small></th>
+            <td data-label="宋体">
+              <div class="font-entry"><span class="font-name">宋体（简）</span><span class="english-name">SimSun</span><span class="status built-in">内置</span></div>
+              <div class="font-entry"><span class="font-name">新細明體（繁）</span><span class="english-name">PMingLiU</span><span class="status optional">可选</span></div>
+            </td>
+            <td data-label="黑体">
+              <div class="font-entry"><span class="font-name">微软雅黑（简）</span><span class="english-name">Microsoft YaHei</span><span class="status built-in">内置</span></div>
+              <div class="font-entry"><span class="font-name">微軟正黑體（繁）</span><span class="english-name">Microsoft JhengHei</span><span class="status built-in">内置</span></div>
+            </td>
+            <td data-label="楷体">
+              <div class="font-entry"><span class="font-name">楷体（简）</span><span class="english-name">KaiTi</span><span class="status optional">可选</span></div>
+              <div class="font-entry"><span class="font-name">標楷體（繁）</span><span class="english-name">DFKai-SB</span><span class="status optional">可选</span></div>
+            </td>
+            <td data-label="仿宋">
+              <div class="font-entry"><span class="font-name">仿宋（简）</span><span class="english-name">FangSong</span><span class="status optional">可选</span></div>
+              <div class="font-entry empty"><span class="font-name">繁体专用字体未验证</span><span class="status none">无可靠映射</span></div>
+            </td>
+          </tr>
+
+          <tr>
+            <th class="platform" scope="row">macOS <small>Apple字体清单</small></th>
+            <td data-label="宋体">
+              <div class="font-entry"><span class="font-name">宋体-简 / 宋體-繁</span><span class="english-name">Songti SC / Songti TC</span><span class="status built-in">内置</span></div>
+            </td>
+            <td data-label="黑体">
+              <div class="font-entry"><span class="font-name">黑体-简 / 黑體-繁</span><span class="english-name">Heiti SC / Heiti TC</span><span class="status built-in">内置</span></div>
+            </td>
+            <td data-label="楷体">
+              <div class="font-entry"><span class="font-name">楷体-简 / 楷體-繁</span><span class="english-name">Kaiti SC / Kaiti TC</span><span class="status download">下载</span></div>
+            </td>
+            <td data-label="仿宋">
+              <div class="font-entry"><span class="font-name">华文仿宋（简）</span><span class="english-name">STFangsong</span><span class="status download">下载</span></div>
+            </td>
+          </tr>
+
+          <tr>
+            <th class="platform" scope="row">iOS / iPadOS <small>Apple字体清单</small></th>
+            <td data-label="宋体">
+              <div class="font-entry"><span class="font-name">宋体-简 / 宋體-繁</span><span class="english-name">Songti SC / Songti TC</span><span class="status download">下载</span></div>
+            </td>
+            <td data-label="黑体">
+              <div class="font-entry"><span class="font-name">苹方-简 / 蘋方-繁</span><span class="english-name">PingFang SC / PingFang TC</span><span class="status download">下载</span></div>
+            </td>
+            <td data-label="楷体">
+              <div class="font-entry"><span class="font-name">楷体-简 / 楷體-繁</span><span class="english-name">Kaiti SC / Kaiti TC</span><span class="status download">下载</span></div>
+            </td>
+            <td data-label="仿宋">
+              <div class="font-entry"><span class="font-name">华文仿宋（简）</span><span class="english-name">STFangsong</span><span class="status download">下载</span></div>
+            </td>
+          </tr>
+
+          <tr>
+            <th class="platform" scope="row">Linux <small>以Debian软件包为例</small></th>
+            <td data-label="宋体">
+              <div class="font-entry"><span class="font-name">思源宋体系（简 / 繁）</span><span class="english-name">Noto Serif CJK SC / TC</span><span class="status package">软件包</span></div>
+            </td>
+            <td data-label="黑体">
+              <div class="font-entry"><span class="font-name">思源黑体系（简 / 繁）</span><span class="english-name">Noto Sans CJK SC / TC</span><span class="status package">软件包</span></div>
+            </td>
+            <td data-label="楷体">
+              <div class="font-entry"><span class="font-name">cwTeX 楷書（繁）</span><span class="english-name">cwTeXKai</span><span class="status package">软件包</span></div>
+            </td>
+            <td data-label="仿宋">
+              <div class="font-entry"><span class="font-name">cwTeX 仿宋體（繁）</span><span class="english-name">cwTeXFangSong</span><span class="status package">软件包</span></div>
+            </td>
+          </tr>
+
+          <tr>
+            <th class="platform" scope="row">Android <small>AOSP</small></th>
+            <td data-label="宋体">
+              <div class="font-entry"><span class="font-name">思源宋体系（简 / 繁）</span><span class="english-name">Noto Serif CJK SC / TC</span><span class="status fallback">系统回退</span></div>
+            </td>
+            <td data-label="黑体">
+              <div class="font-entry"><span class="font-name">思源黑体系（简 / 繁）</span><span class="english-name">Noto Sans CJK SC / TC</span><span class="status fallback">系统回退</span></div>
+            </td>
+            <td class="empty" data-label="楷体">
+              <span class="font-name">未配置</span><span class="status none">无映射</span>
+            </td>
+            <td class="empty" data-label="仿宋">
+              <span class="font-name">未配置</span><span class="status none">无映射</span>
+            </td>
+          </tr>
+
+          <tr>
+            <th class="platform" scope="row">OpenHarmony <small>商业设备可能不同</small></th>
+            <td class="empty" data-label="宋体">
+              <span class="font-name">未配置</span><span class="status none">无映射</span>
+            </td>
+            <td data-label="黑体">
+              <div class="font-entry"><span class="font-name">鸿蒙黑体 / 鴻蒙黑體</span><span class="english-name">HarmonyOS Sans SC / TC</span><span class="status fallback">系统回退</span></div>
+            </td>
+            <td class="empty" data-label="楷体">
+              <span class="font-name">未配置</span><span class="status none">无映射</span>
+            </td>
+            <td class="empty" data-label="仿宋">
+              <span class="font-name">未配置</span><span class="status none">无映射</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer>
+      <p>速查结论来自<a href="https://github.com/w3c/clreq/blob/gh-pages/others/system-font-mappings.md">完整系统字体映射资料</a>。字体可用性会随系统版本、地区与设备厂商变化。</p>
+      <p>CLREQ · 2026</p>
+    </footer>
+  </main>
+</body>
+</html>

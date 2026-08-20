@@ -253,8 +253,8 @@ function replaceBoilerplateText(lang) {
         }
 
     // Replace figure caption prefixes
-    queryNodeList("figcaption, .fig-ref").forEach(elmtNode => {
-        if (elmtNode.firstChild) elmtNode.firstChild.textContent = l10n.fig
+    queryNodeList("figcaption > .self-link, .fig-ref").forEach(elmtNode => {
+        if (elmtNode.firstChild) elmtNode.firstChild.nodeValue = l10n.fig
         })
 
     // Replace <summary> text in document header
@@ -463,6 +463,5 @@ function updateSelectedLanguageButton(lang) {
         else btnNode.classList.remove('selectedLanguage')
         })
     }
-
 
 

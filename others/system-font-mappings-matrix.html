@@ -8,20 +8,21 @@
   <style>
     :root {
       color-scheme: light;
-      --paper: #f4f0e7;
-      --sheet: #fffdf8;
-      --ink: #20201d;
-      --muted: #68645b;
-      --rule: #cdc5b6;
-      --rule-strong: #8c8375;
-      --accent: #a33a2b;
-      --accent-soft: #f4e1da;
-      --available: #236448;
-      --available-soft: #deede4;
-      --optional: #7a5319;
-      --optional-soft: #f4e7cb;
-      --absent: #716d66;
-      --absent-soft: #ebe8e1;
+      --paper: #f3f6e9;
+      --sheet: #fffef9;
+      --ink: #20251b;
+      --muted: #626858;
+      --rule: #c9d1b9;
+      --rule-strong: #7f8b6c;
+      --accent: #99c045;
+      --accent-strong: #4e6b15;
+      --accent-soft: #edf5d6;
+      --available: #456b18;
+      --available-soft: #e6efd2;
+      --optional: #795416;
+      --optional-soft: #f4e8cc;
+      --absent: #61655d;
+      --absent-soft: #ebece6;
       font-family: 'Punctuation TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', 'PingFang TC', 'Noto Sans CJK TC', 'Noto Sans TC', 'Heiti TC', 'Microsoft JhengHei', sans-serif;
       text-autospace: normal;
       font-synthesis: none;
@@ -45,23 +46,23 @@
     }
 
     ::selection {
-      color: var(--sheet);
+      color: var(--ink);
       background: var(--accent);
     }
 
     a {
       color: inherit;
-      text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent);
+      text-decoration-color: color-mix(in oklab, var(--accent-strong) 65%, transparent);
       text-decoration-thickness: 0.08em;
       text-underline-offset: 0.22em;
     }
 
     a:hover {
-      color: var(--accent);
+      color: var(--accent-strong);
     }
 
     a:focus-visible {
-      outline: 0.1875rem solid var(--accent);
+      outline: 0.1875rem solid var(--accent-strong);
       outline-offset: 0.25rem;
     }
 
@@ -78,7 +79,7 @@
       align-items: end;
       margin-bottom: clamp(2rem, 4vw, 3.75rem);
       padding-bottom: 1.35rem;
-      border-bottom: 0.125rem solid var(--ink);
+      border-bottom: 0.125rem solid var(--accent);
     }
 
     h1 {
@@ -113,8 +114,8 @@
     }
 
     thead {
-      background: var(--ink);
-      color: var(--sheet);
+      background: var(--accent);
+      color: var(--ink);
     }
 
     th,
@@ -146,7 +147,7 @@
 
     .platform {
       width: 13%;
-      background: #f3eee5;
+      background: var(--accent-soft);
       font-size: 1.05rem;
       line-height: 1.3;
     }
@@ -329,14 +330,14 @@
         width: auto;
         padding: 0.8rem 1rem;
         border-right: 0;
-        background: var(--ink);
-        color: var(--sheet);
+        background: var(--accent);
+        color: var(--ink);
       }
 
       .platform small {
         display: inline;
         margin-left: 0.5rem;
-        color: #d6d0c6;
+        color: var(--ink);
       }
 
       td {
@@ -350,7 +351,7 @@
         position: absolute;
         top: 0.75rem;
         left: 1rem;
-        color: var(--accent);
+        color: var(--accent-strong);
         font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
         font-size: 0.78rem;
         font-weight: 700;
